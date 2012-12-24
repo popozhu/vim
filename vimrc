@@ -71,7 +71,7 @@ map <C-l> <C-w>l
 
 
 filetype plugin indent on 
-
+set fileencodings=utf8,gbk,gb2312,gb18030,cp936
 
 
 """""""""""""""""""""""""   plugin conf here  """"""""""""""""""""
