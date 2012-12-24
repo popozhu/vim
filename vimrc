@@ -18,6 +18,8 @@ syntax enable
 syntax on
 "set t_Co=256 	" 256 colors
 colorscheme desert 
+set bg=light " background, or dark
+set autoindent
 
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
