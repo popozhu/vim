@@ -52,7 +52,7 @@ inoremap <expr> <Up>       pumvisible()?"\<C-p>":"\<Up>"
 "inoremap <expr> <C-d>     pumvisible()?"\<PageDown>\<C-p>\<C-n>":"\<C-d>"
 "inoremap <expr> <C-u>     pumvisible()?"\<PageUp>\<C-p>\<C-n>":"\<C-u>"
 " 离开插入模式后自动关闭预览窗口
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 
 " Remember info about open buffers on close
@@ -84,24 +84,24 @@ call pathogen#infect()
 
 
 " Tag list (ctags)
-nmap <leader>j :TlistToggle<cr>     ",j打开tlist窗口
-set tags=tags;	" 设置tags的目录
-set autochdir
-let Tlist_Ctags_Cmd = '/usr/bin/ctags'
-let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
-let Tlist_Exit_OnlyWindow = 1          "如果taglist窗口是最后一个窗口，则退出vim
-let Tlist_Use_Right_Window = 1         "在右侧窗口中显示taglist窗口 
-let Tlist_Auto_Open = 1				   "自动打开
+"nmap <leader>j :TlistToggle<cr>     ",j打开tlist窗口
+"set tags=tags;	" 设置tags的目录
+"set autochdir
+"let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+"let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
+"let Tlist_Exit_OnlyWindow = 1          "如果taglist窗口是最后一个窗口，则退出vim
+"let Tlist_Use_Right_Window = 1         "在右侧窗口中显示taglist窗口 
+"let Tlist_Auto_Open = 1				   "自动打开
 
 " Tagbar (ctags)
-"set tags=tags;	" 设置tags的目录
-"nnoremap <leader>j :TagbarToggle<cr>
-"let g:tagbar_ctags_bin = '/usr/bin/ctags'
-"let g:tagbar_autoshowtag = 1	" 
-"let g:tagbar_sort = 0
-"let g:tagbar_width = 30
-"let g:tagbar_foldlevel = 99
-"autocmd FileType c,cpp,h nested :TagbarOpen
+set tags=tags;	" 设置tags的目录
+nnoremap <leader>j :TagbarToggle<cr>
+let g:tagbar_ctags_bin = '/usr/bin/ctags'
+let g:tagbar_autoshowtag = 1
+let g:tagbar_sort = 0
+let g:tagbar_width = 40
+let g:tagbar_foldlevel = 2
+autocmd FileType c,cpp,h nested :TagbarOpen
 
 
 " minibufexpl conf
