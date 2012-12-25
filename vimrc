@@ -1,5 +1,3 @@
-
-
 """"""""""""""""""""""""""""""""""""
 "   http://amix.dk/vim/vimrc.html
 """""""""""""""""""""""""""""""""""
@@ -16,11 +14,13 @@ nmap <leader>w :w!<cr>
 
 syntax enable
 syntax on
-"set t_Co=256 	" 256 colors
-colorscheme desert 
-set bg=light " background, or dark
-set autoindent
 
+"set t_Co=256	" 256 colors
+"colorscheme desert 
+" git clone git://github.com/altercation/solarized.git
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -71,6 +71,7 @@ map <C-l> <C-w>l
 
 
 filetype plugin indent on 
+set autoindent
 
 set enc=utf8 
 set fencs=utf8,gbk,gb2312,gb18030,cp936
@@ -102,6 +103,8 @@ let g:tagbar_sort = 0
 let g:tagbar_width = 40
 let g:tagbar_foldlevel = 2
 autocmd FileType c,cpp,h nested :TagbarOpen
+" g<c-]> list the tag list
+
 
 
 " minibufexpl conf
