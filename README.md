@@ -39,6 +39,7 @@ repository for vim's plugins and vim profile
 * 5.启动vim即可<br/>
 `vim ~/.vimrc`
 
+* 6.以后要同步，只需在~/.vim目录下git pull或git push即可。
 
 note:
 --
