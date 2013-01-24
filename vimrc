@@ -10,43 +10,43 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
-syntax enable
-syntax on
-
-set t_Co=256	" xterm-256 colors
-"colorscheme desert 
-
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
 set noswapfile
 
-" show line number
-set nu
-
 " highlight when searching
 set hls
 " Key mapping to stop the search highlight
 nmap <leader>f :nohlsearch<CR>
-" show matching pattern
-set is
+" When searching try to be smart about cases 
+set smartcase
+nnoremap * *``  " the cursor jump back
+"noremap # #``   " the cursor jump back
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" For regular expressions turn magic on
+set magic
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
 
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
 
-" coding complete
-set completeopt+=longest
-inoremap <expr> <Esc>      pumvisible()?"\<C-e>":"\<Esc>"
-inoremap <expr> <CR>       pumvisible()?"\<C-y>":"\<CR>"
-inoremap <expr> <Down>     pumvisible()?"\<C-n>":"\<Down>"
-inoremap <expr> <Up>       pumvisible()?"\<C-p>":"\<Up>"
-"inoremap <expr> <C-d>     pumvisible()?"\<PageDown>\<C-p>\<C-n>":"\<C-d>"
-"inoremap <expr> <C-u>     pumvisible()?"\<PageUp>\<C-p>\<C-n>":"\<C-u>"
-"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
 " Remember info about open buffers on close
 set viminfo^=%
+
+"Always show current position
+set ruler
+" show line number
+set nu
 
 " Always show the status line
 set laststatus=2
@@ -62,14 +62,18 @@ map <C-l> <C-w>l
 " ctrl+w s split a horizontal window
 " ctrl+w v sllit a vertical window
 " ctrl+w q quit current window
-map <leader>a :res+50!<cr>
-map <leader>s :res-50!<cr>
 
+syntax enable
+syntax on
 filetype plugin indent on 
 set autoindent
 set smartindent
-noremap <leader>s :set paste<CR>	// to paste mode
-noremap <leader>S :set nopaste<CR>	// leave past mode
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+" Use spaces instead of tabs
+set expandtab
+" Be smart when using tabs ;)
+set smarttab
 
 " encoding
 set enc=utf8 
@@ -79,8 +83,12 @@ set fencs=utf8,gbk,gb2312,gb18030,cp936
 " copy something from vim to osX clipboard
 " ref: http://vim.wikia.com/wiki/In_line_copy_and_paste_to_system_clipboard
 " for mac
-vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
-"nmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
+if has("mac") || has("macunix")
+	vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
+	"nmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
+endif
+
+
 
 
 """""""""""""""""""""""""   plugin's conf here  """"""""""""""""""""
@@ -91,6 +99,7 @@ call pathogen#infect()
 
 
 " git clone git://github.com/altercation/solarized.git
+set t_Co=256	" xterm-256 colors
 set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
@@ -128,6 +137,10 @@ autocmd FileType c,cpp,h nested :TagbarOpen
 ":AT "新建一个标签页并打开c/h文件
 
 
+
+
+
+
 """""""""""""""""""""""   function here   """"""""""""""""""""""
 
 " Return to last edit position when opening files (You want this!)
@@ -144,7 +157,6 @@ function! HasPaste()
     en
     return ''
 endfunction
-
 
 
 function! QuitLastWindow()
