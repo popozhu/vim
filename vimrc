@@ -13,7 +13,7 @@ nmap <leader>w :w!<cr>
 syntax enable
 syntax on
 
-"set t_Co=256	" 256 colors
+set t_Co=256	" xterm-256 colors
 "colorscheme desert 
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
@@ -49,9 +49,10 @@ inoremap <expr> <Up>       pumvisible()?"\<C-p>":"\<Up>"
 set viminfo^=%
 
 " Always show the status line
- set laststatus=2
+set laststatus=2
 " Format the status line
- set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ cwd:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ cwd:\ %r%{getcwd()}%h\ \ \ Line:\ %l 
+
 
 " switch the window
 map <C-h> <C-w>h
@@ -66,6 +67,9 @@ map <leader>s :res-50!<cr>
 
 filetype plugin indent on 
 set autoindent
+set smartindent
+noremap <leader>s :set paste<CR>	// to paste mode
+noremap <leader>S :set nopaste<CR>	// leave past mode
 
 " encoding
 set enc=utf8 
