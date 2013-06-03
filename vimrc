@@ -17,8 +17,11 @@ set noswapfile
 
 " highlight when searching
 set hls
-" Key mapping to stop the search highlight
+" toggle search highlight
+"let hlstate=0
+"nmap <leader>f :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
 nmap <leader>f :nohlsearch<CR>
+
 " When searching try to be smart about cases 
 set smartcase
 nnoremap * *``  " the cursor jump back
@@ -50,9 +53,7 @@ set nu
 
 " Always show the status line
 set laststatus=2
-" Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ cwd:\ %r%{getcwd()}%h\ \ \ line:\ %l\ \ \ per:\ %P
-
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ \ line:\ %l\ \ \ per:\ %P
 
 " switch the window
 map <C-h> <C-w>h
@@ -89,6 +90,15 @@ if has("mac") || has("macunix")
 endif
 
 
+"some essential buffer commands:
+":ls     List the current buffers (including their numbers).
+":b <number>     Display the buffer with the given number.
+":b <partial>    Display the first buffer matching the partial name (or press Tab for name completion). 
+
+
+" go to a variable's defination: gD
+
+
 
 
 """""""""""""""""""""""""   plugin's conf here  """"""""""""""""""""
@@ -107,7 +117,7 @@ colorscheme solarized
 
 " Tag list (ctags)
 nmap <leader>j :TlistToggle<cr>     	",j打开tlist窗口
-set tags=tags;	" 设置tags的目录
+set tags+=~/.vim/systags,tags;      	" 设置tags的目录
 set autochdir
 let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
@@ -137,6 +147,11 @@ let Tlist_Auto_Open = 1				   "自动打开
 ":AT "新建一个标签页并打开c/h文件
 
 
+" buftabs
+" show buffer in status line
+"let g:buftabs_in_statusline=1
+"set statusline=\ %{buftabs#statusline()}\ %{HasPaste()}%F%m%r%h\ %w\ \ \ line:\ %l\ \ \ per:\ %P
+let g:buftabs_only_basename=1
 
 
 
@@ -153,7 +168,7 @@ autocmd BufReadPost *
 " Returns true if paste mode is enabled
 function! HasPaste()
     if &paste
-        return 'PASTE MODE  '
+        return '[PASTE MODE]  '
     en
     return ''
 endfunction
