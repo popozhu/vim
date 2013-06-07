@@ -28,10 +28,10 @@ repository for vim's plugins and vim profile
 `mv ~/.vimrc ~/vimrc.bak`
 
 * 2.clone这个vim仓库到机器上<br/>
-`git clone git://github.com/popozhu/vim.git`
+`git clone git://github.com/popozhu/vim.git ~/vim`
 
 * 3.把clone下来的vim目录替换到~/.vim <br/>
-`mv vim ~/.vim`
+`mv ~/vim ~/.vim`
 
 * 4.为~/.vim/vimrc文件创建一个软连接 <br/>
 `ln -s ~/.vim/vimrc ~/.vimrc`

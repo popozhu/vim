@@ -44,7 +44,7 @@ set shiftwidth=4
 set tabstop=4
 
 " Remember info about open buffers on close
-set viminfo^=%
+"set viminfo^=%
 
 "Always show current position
 set ruler
@@ -67,14 +67,20 @@ map <C-l> <C-w>l
 syntax enable
 syntax on
 filetype plugin indent on 
-set autoindent
-set smartindent
-" Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
+
 " Use spaces instead of tabs
 set expandtab
 " Be smart when using tabs ;)
 set smarttab
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
+
 
 " encoding
 set enc=utf8 
@@ -99,6 +105,32 @@ endif
 " go to a variable's defination: gD
 
 
+" hot key for folding
+set foldmethod=manual
+au BufWinLeave *.* mkview
+au BufWinEnter *.* silent loadview
+nnoremap <space> za
+nnoremap <leader>z zf%
+
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Quickly open a buffer for scripbble
+map <leader>q :e ~/buffer<cr>
+
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+map <leader>tn :tabn<cr>
+map <leader>tp :tabp<cr>
+map <leader>tc :tabc<cr>
+
+
 
 
 """""""""""""""""""""""""   plugin's conf here  """"""""""""""""""""
@@ -119,7 +151,7 @@ colorscheme solarized
 nmap <leader>j :TlistToggle<cr>     	",j打开tlist窗口
 set tags+=~/.vim/systags,tags;      	" 设置tags的目录
 set autochdir
-let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+"let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
 let Tlist_Exit_OnlyWindow = 1          "如果taglist窗口是最后一个窗口，则退出vim
 let Tlist_Use_Right_Window = 1         "在右侧窗口中显示taglist窗口 
@@ -164,6 +196,11 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
 
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -172,6 +209,7 @@ function! HasPaste()
     en
     return ''
 endfunction
+
 
 
 function! QuitLastWindow()
