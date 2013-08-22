@@ -107,14 +107,14 @@ endif
 
 " hot key for folding
 set foldmethod=manual
-au BufWinLeave *.* mkview
-au BufWinEnter *.* silent loadview
+"au BufWinLeave *.* mkview
+"au BufWinEnter *.* silent loadview
 nnoremap <space> za
 nnoremap <leader>z zf%
 
 
 " Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+"noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scripbble
 map <leader>q :e ~/buffer<cr>
@@ -184,6 +184,8 @@ let Tlist_Auto_Open = 1				   "自动打开
 "let g:buftabs_in_statusline=1
 "set statusline=\ %{buftabs#statusline()}\ %{HasPaste()}%F%m%r%h\ %w\ \ \ line:\ %l\ \ \ per:\ %P
 let g:buftabs_only_basename=1
+
+
 
 
 
