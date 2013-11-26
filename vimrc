@@ -10,10 +10,17 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set 7 lines to the cursor - when moving vertically using j/k
+set so=7
+
+"Always show current position
+set ruler
+" show line number
+set nu
 
 " highlight when searching
 set hls
@@ -38,22 +45,65 @@ set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
+" Always show the status line
+set laststatus=2
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ \ line:\ %l\ \ \ per:\ %P
 
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax enable
+syntax on
+filetype plugin indent on 
+
+" git clone git://github.com/altercation/solarized.git
+set t_Co=256	" xterm-256 colors
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
+
+" encoding
+set enc=utf8 
+set fencs=utf8,gbk,gb2312,gb18030,cp936
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Be smart when using tabs ;)
+set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
 
-" Remember info about open buffers on close
-"set viminfo^=%
+" Linebreak on 500 characters
+set lbr
+set tw=500
 
-"Always show current position
-set ruler
-" show line number
-set nu
+set cindent
+set wrap "Wrap lines
 
-" Always show the status line
-set laststatus=2
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ \ line:\ %l\ \ \ per:\ %P
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Treat long lines as break lines (useful when moving around in them)
+map j gj
+map k gk
 
 " switch the window
 map <C-h> <C-w>h
@@ -64,28 +114,26 @@ map <C-l> <C-w>l
 " ctrl+w v sllit a vertical window
 " ctrl+w q quit current window
 
-syntax enable
-syntax on
-filetype plugin indent on 
-
-" Use spaces instead of tabs
-set expandtab
-" Be smart when using tabs ;)
-set smarttab
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+map <leader>tn :tabn<cr>
+map <leader>tp :tabp<cr>
+map <leader>tc :tabc<cr>
 
 
-" encoding
-set enc=utf8 
-set fencs=utf8,gbk,gb2312,gb18030,cp936
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Misc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+
+" Remove the Windows ^M - when the encodings gets messed up
+"noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Quickly open a buffer for scripbble
+map <leader>q :e ~/buffer<cr>
 
 " copy something from vim to osX clipboard
 " ref: http://vim.wikia.com/wiki/In_line_copy_and_paste_to_system_clipboard
@@ -95,7 +143,6 @@ if has("mac") || has("macunix")
 	"nmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
 endif
 
-
 "some essential buffer commands:
 ":ls     List the current buffers (including their numbers).
 ":b <number>     Display the buffer with the given number.
@@ -103,6 +150,8 @@ endif
 
 
 " go to a variable's defination: gD
+" quickly open a header file: gf; and then use [ctrl+^] to go back
+" open a head file: gf
 
 
 " hot key for folding
@@ -113,38 +162,10 @@ nnoremap <space> za
 nnoremap <leader>z zf%
 
 
-" Remove the Windows ^M - when the encodings gets messed up
-"noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Quickly open a buffer for scripbble
-map <leader>q :e ~/buffer<cr>
-
-" Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
-
-
-" Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-map <leader>tn :tabn<cr>
-map <leader>tp :tabp<cr>
-map <leader>tc :tabc<cr>
-
-
-
 
 """""""""""""""""""""""""   plugin's conf here  """"""""""""""""""""
-"let g:miniBufExplModSelTarget = 1 
-
 " https://github.com/tpope/vim-pathogen/
 call pathogen#infect()
-
-
-" git clone git://github.com/altercation/solarized.git
-set t_Co=256	" xterm-256 colors
-set background=dark
-let g:solarized_termcolors=256
-colorscheme solarized
 
 
 " Tag list (ctags)
@@ -184,9 +205,7 @@ let Tlist_Auto_Open = 1				   "自动打开
 "let g:buftabs_in_statusline=1
 "set statusline=\ %{buftabs#statusline()}\ %{HasPaste()}%F%m%r%h\ %w\ \ \ line:\ %l\ \ \ per:\ %P
 let g:buftabs_only_basename=1
-
-
-
+nmap <leader>t :call Buftabs_show(-1))<CR>
 
 
 
@@ -197,12 +216,8 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
-
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
+" Remember info about open buffers on close
+set viminfo^=%
 
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -211,7 +226,6 @@ function! HasPaste()
     en
     return ''
 endfunction
-
 
 
 function! QuitLastWindow()
