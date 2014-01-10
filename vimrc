@@ -84,7 +84,7 @@ set fencs=utf8,gbk,gb2312,gb18030,cp936
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Be smart when using tabs ;)
-set smarttab
+"set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
