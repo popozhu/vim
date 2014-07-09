@@ -85,8 +85,10 @@ set fencs=utf8,gbk,gb2312,gb18030,cp936
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Be smart when using tabs ;)
 set smarttab
+
 " 1 tab == 4 spaces
-set shiftwidth=4
+set shiftwidth=8
+set tabstop=8
 
 " Linebreak on 500 characters
 set lbr
@@ -112,13 +114,63 @@ map <C-l> <C-w>l
 " ctrl+w s split a horizontal window
 " ctrl+w v sllit a vertical window
 " ctrl+w q quit current window
+" set scb 两个分屏中的文件同步移动
+
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-map <leader>tn :tabn<cr>
-map <leader>tp :tabp<cr>
-map <leader>tc :tabc<cr>
+"gt
+"gT
+map <leader>tn :tabnew<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vimgrep searching and cope displaying
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" When you press gv you vimgrep after the selected text
+vnoremap <silent> gv :call VisualSelection('gv')<CR>
+
+" Open vimgrep and put the cursor in the right position
+map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+
+" Vimgreps in the current file
+map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
+
+" When you press <leader>r you can search and replace the selected text
+vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
+
+" Do :help cope if you are unsure what cope is. It's super useful!
+"
+" When you search with vimgrep, display your results in cope by doing:
+"   <leader>cc
+"
+" To go to the next search result do:
+"   <leader>n
+"
+" To go to the previous search results do:
+"   <leader>p
+"
+map <leader>cc :botright cope<cr>
+map <leader>n :cn<cr>
+map <leader>p :cp<cr>
+map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
 
 
 
@@ -141,6 +193,8 @@ if has("mac") || has("macunix")
 	vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
 	"nmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
 endif
+
+
 
 "some essential buffer commands:
 ":ls     List the current buffers (including their numbers).
@@ -226,6 +280,32 @@ function! HasPaste()
     return ''
 endfunction
 
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
+
+function! VisualSelection(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
 
 function! QuitLastWindow()
   redir => buffersoutput
@@ -250,5 +330,4 @@ function! QuitLastWindow()
   endif
 endfunction
 "autocmd WinEnter * call QuitLastWindow()
-
 
